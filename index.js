@@ -4,16 +4,20 @@ const mongoose = require("mongoose");
 const User = require("./models/user.js");
 const { getUsers, deleteUser, updateUser, getUser } = require("./apis/user.js");
 const { signUp } = require("./apis/signUp");
+const cookieParser = require("cookie-parser");
+const signIn = require("./apis/signIn.js");
 
 const server = express();
 server.use(express.json());
+server.use(cookieParser());
 
 server
   .post("/signUp", signUp)
   .get("/user", getUsers)
   .get("/user/:userId", getUser)
   .delete("/user", deleteUser)
-  .patch("/user/:userId", updateUser);
+  .patch("/user/:userId", updateUser)
+  .post("/signin", signIn);
 
 connectDb()
   .then(() => {
